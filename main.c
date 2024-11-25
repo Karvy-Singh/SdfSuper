@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "tui.h"
+#include "seller_portal/portal.h"
 #include "customer_portal/portal.h"
 
 #define MAX_LINE_LENGTH 1024 

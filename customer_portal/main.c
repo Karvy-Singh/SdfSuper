@@ -58,7 +58,7 @@ int start_customer_portal() {
     box(content_win, 0, 0);
 
     // Print application name in top window
-    char *app_name = "E-commerce Portal";
+    char *app_name = "Jainwin Store";
     mvwprintw(top_win, top_height / 2, (width - strlen(app_name)) / 2, "%s", app_name);
     wrefresh(top_win);
 

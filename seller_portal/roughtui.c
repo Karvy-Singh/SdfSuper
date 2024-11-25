@@ -4,7 +4,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
-#include "tui.h"
+#include "portal.h"
 #include "wow.h"
 #include "roughtui.h"
 #include "product_new.h"
@@ -129,8 +129,12 @@ void run_tui() {
                     break;
                 }
                 if (strcmp(item_name(current_item(my_menu)), "INVENTORY") == 0){
-                    if(display_products_from_file("Products.csv", content_win)==2){
-                        window=2;
+                    int disp_ret = 1;
+                    while (disp_ret == 1){
+                      disp_ret = display_products_from_file("Products.csv", content_win);
+                      if(disp_ret == 2){
+                          window=2;
+                      }
                     }
                 }
         }
