@@ -1,0 +1,292 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{titlesec}
+
+\geometry{margin=1in}
+\setcounter{secnumdepth}{3}
+\graphicspath{{assets/}}
+
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+    
+    \Huge
+    \textbf{Jaypee Institute of Information Technology, Sector - 62, Noida } \\
+    \vspace{0.5cm}
+    \Large
+    \textbf{B.Tech CSE I Semester}\\
+    \vspace{1cm}
+    \vspace*{\fill}
+    
+    \includegraphics[scale=0.2]{jiit_logo}\\
+    
+    \vspace{1.5cm}
+    \Huge
+    \textbf{SDF Project Report}\\
+    \Large
+    
+    \textbf{Ecommerce Management System}\\
+    \vspace{1cm}
+
+    \Large
+    \textbf{Submitted to}\\
+    Dr. Kavita Pandey\\
+    Dr. Shardha Porwal\\
+    \vspace{1cm}
+
+    \textbf{Submitted by}
+    \vspace{0.5cm}
+
+    \begin{tabular}{lll}
+        Harsh Sharma & B5 & 2401030232 \\
+        Karvy Singh & B5 & 2401030234 \\
+        Rudra Kumar Singh & B5 & 2401030237 \\
+    \end{tabular}
+
+    \vspace*{\fill}
+    \normalsize
+\end{titlepage}
+
+% Letter of Transmittal
+
+\begin{center}
+    \Large\textbf{Letter of Transmittal}
+\end{center}
+\vspace{1cm}
+
+\noindent
+\textbf{Dr. Kavita Pandey} \\
+[0.5em]
+Department of Computer Science \& Information Technology\\
+[0.5em]
+% University/Institute Name \\
+% [Address] \\
+\textbf{Dr. Shardha Porwal} \\
+[0.5em]
+Department of Computer Science \& Information Technology\\
+[0.5em]
+\vspace{1cm}
+
+\noindent
+\textbf{Subject:} Submission of Report on ``Ecommerce Management System''
+
+\vspace{1cm}
+
+\noindent
+Dear Dr. Kavita Pandey \& Dr. Shardha Porwal,
+
+\vspace{1em}
+
+\noindent
+We are pleased to submit our report on our Project titled \textit{``Ecommerce Management System''} as part of our coursework. This project is an \textit{Ecommerce Management System} which helps sellers and customers with a platform to sell and buy commodities. It provides several features for customers and sellers as well. Such as graphs, inventory listings, cart system for customers, etc.
+
+\vspace{1em}
+
+\noindent
+We have endeavored to cover the topics in SDF-1 comprehensively and hope that this project meets your expectations.
+
+\vspace{1em}
+
+\noindent
+Thank you for your guidance and the opportunity to work on this project.
+
+\vspace{2em}
+
+\noindent
+Sincerely, \\[2em]
+
+\noindent
+Harsh Sharma (2401030232)\\
+Karvy Singh (2401030234)\\
+Rudra Kumar Singh (2401030237)
+
+\vspace{2cm}
+
+\noindent
+Date: \today
+
+\newpage
+
+\tableofcontents
+
+\newpage
+\section{Abstract}
+
+The E-Commerce Management System is a C-based application designed to streamline the operations of both sellers and customers. The system provides separate functionalities for each user type, ensuring a seamless interaction between the two.
+\begin{itemize}
+    \item For sellers, the platform allows them to log in securely using an ID and password. Once authenticated, sellers can manage their inventory by adding, updating, or deleting products. They also have access to view detailed sales data, helping them track revenue and manage orders from customers. Sellers can process orders by accepting, declining, or marking them for shipment.
+    \item On the customer side, the system enables users to register or log in securely. Customers can browse the available products, view detailed descriptions, and add items to a shopping cart. Once they are ready to make a purchase, they can proceed to checkout. Additionally, customers can view their order history and track the status of ongoing orders.
+    
+\end{itemize}
+
+\newpage
+\section{Topics of SDF-1 Used}
+
+The E-commerce Management System utilizes several foundational concepts of C programming taught in the SDF-1 course. Below is a brief overview of the key topics used:
+
+\begin{itemize}
+    \item \textbf{Data Types}: The program employs a variety of C data types such as \texttt{int}, \texttt{float}, \texttt{char}, and \texttt{double} to represent various elements like product prices, quantities, and user inputs.
+    
+    \item \textbf{Variables}: Variables are used extensively to store user credentials, product details, and other intermediate data during program execution.
+    \item \textbf{Functions}: The modular structure of the code is achieved by using functions for specific tasks.
+
+    \item \textbf{Pointers}: Pointers are used for efficient memory management, passing data between functions, and dynamic memory allocation. For instance, pointers are utilized to handle strings dynamically and to work with file streams.
+
+    \item \textbf{Structures}: Custom structures like \texttt{struct Product} and \texttt{struct User} are defined to logically group related data. This makes it easier to handle complex entities like a product with its attributes or a user with their credentials and purchase history.
+
+    \item \textbf{Strings}: Strings are used to manage textual data such as usernames, passwords, product names, and error messages. Functions from the \texttt{<string.h>} library, such as \texttt{strcmp()} and \texttt{strcpy()}, are employed for string manipulation.
+\end{itemize}
+
+These topics collectively form the foundation for the program, ensuring that the system is efficient, organized, and easy to maintain.
+
+\newpage
+\section{Design}
+
+An Ecommerce Portal is a very graphics heavy site UX wise. A lot of data is involved, so the users need better methods than text to properly understand them. For this reason, we are using a library called \texttt{ncurses} rather than building a traditional menu based UI. \\
+
+\texttt{ncurses} allows complete control over the console window. Every block is available to be modified, and user inputs are available without the need to press Enter. So we can build very advanced and fun to use UIs in terminal as well.\\
+
+
+The program is divided into mainly three sections:
+\begin{itemize}
+    \item Login Page
+    \item Customer Portal
+    \item Seller Portal
+\end{itemize}
+
+\subsection{Login Page}
+The Login Page serves as the entry point of the program. This page can redirect you to either of the portals depending on the input.
+
+In this page, the user inputs a username and a password. If the credentials are correct then the user will be redirected to their account's corresponding portal.
+
+\subsection{Customer Portal}
+The Customer Portal uses a Sidebar and Main Content design. The sidebar controls which page to show on main content and main content follows. It has the following Menus:
+\begin{itemize}
+    \item Browse Products
+    \item My Cart
+    \item Manage Account
+    \item Logout
+\end{itemize}
+
+\subsection{Seller Portal}
+The Seller Portal (similar to Customer Portal) uses a Sidebar and Main Content design. The sidebar provides the following menus:
+\begin{itemize}
+    \item Orders
+    \item Inventory
+    \item Sales
+\end{itemize}
+
+\section{Implementation Detail}
+\subsection{Login Page}
+The Login Page is implemented in the \texttt{main.c} file. This module provides user authentication functionality and acts as the entry point to the system. It includes the following features:
+\begin{itemize}
+    \item A menu-based user interface built with \texttt{ncurses}.
+    \item Combined login for customers and sellers.
+    \item User validation against stored credentials (e.g., stored in a csv file).
+    \item Error handling for invalid inputs or credentials.
+\end{itemize}
+Placing orders and viewing order history
+\textbf{Code Highlights}:
+\begin{itemize}
+    \item \texttt{int main()}: Entry point of the program, initialises \texttt{ncurses} screen and setups up the login screen.
+    \item \texttt{int parse\_csv(const char *filename, char *user\_input1, char *user\_input2)}: Checks the credentials against the data stored in the Users csv file. \\ returns 0 if credentials are invalid, 1 if its a seller account and 2 if its a customer account.
+\end{itemize}
+
+This module serves as a gateway to the respective Customer and Seller portals, ensuring secure and appropriate access control.
+
+\subsection{Customer Portal}
+The Customer Portal is implemented in the \texttt{customer\_portal} folder, containing multiple C files and supporting header files. It provides functionality for customer-related operations such as:
+\begin{itemize}
+    \item Browsing products and categories.
+    \item Adding products to the cart.
+    \item Viewing and managing the shopping cart.
+    \item Managing user account.
+\end{itemize}
+
+\textbf{Code Highlights}:
+\subsubsection{customer\_portal/main.c}
+Contains initalization for customer portal.
+\begin{itemize}
+    \item \texttt{int start\_customer\_portal()}: Starts the initalization for customer portal. Sets up the top window, sidebar and content window. Checks for user input, calls functions for different screens and menus.
+\end{itemize}
+
+\subsubsection{customer\_portal/cart.c}
+Contains functions for displaying the cart, adding items to cart and managing them.
+\begin{itemize}
+    \item \texttt{struct CartItem}: A linked list which each node representing an item in the cart.
+    \item \texttt{Product *copy\_product(Product *)}: Creates a malloced copy of a Product struct.
+    \item \texttt{void add\_to\_cart(Product *)}: adds a product to cart.
+    \item \texttt{void display\_cart(WINDOW *)}: displays the cart in an \texttt{ncurses} window.
+\end{itemize}
+
+\subsubsection{customer\_portal/display.c}
+Contains functions for displaying the UI and utility.
+\begin{itemize}
+    \item \texttt{char **wrap\_text()}: wraps text bigger than terminal size to next line.
+    \item \texttt{void display\_products()}: Display products listing menu
+\end{itemize}
+
+\subsubsection{customer\_portal/product.c}
+Contains functions for reading and writing products.
+\begin{itemize}
+    \item \texttt{Product **load\_products2()}: Load products from csv.
+    \item \texttt{void write\_products(Product **)}: Write products to csv.
+\end{itemize}
+
+
+
+The user interface leverages \texttt{ncurses} to provide a dynamic and user-friendly experience, allowing seamless navigation through menus and product listings.
+
+\subsection{Seller Portal}
+The Seller Portal is implemented in the \texttt{seller\_portal} folder, which contains dedicated C files and header files to support seller-related functionalities. The main features of this module are:
+\begin{itemize}
+    \item Adding new products to the platform.
+    \item Managing existing product listings (update/delete operations).
+    \item Viewing sales reports and order details.
+    \item Editing seller profiles and managing account settings.
+\end{itemize}
+
+
+\textbf{Code Highlights}:
+\subsubsection{seller\_portal/roughtui.c}
+Contains initalization for seller portal.
+\begin{itemize}
+    \item \texttt{int run\_tui()}: Starts the initalization for seller portal. Sets up the top window, sidebar and content window. Checks for user input, calls functions for different screens and menus.
+\end{itemize}
+
+\subsubsection{seller\_portal.wow.c}
+Contains functions for displaying static menus with beautiful UI.
+\begin{itemize}
+    \item \texttt{void content\_static(WINDOW *)}: displays the static product listings in an \texttt{ncurses} window.
+    \item \texttt{int handle\_menu\_input()}: internal function which handles the input inside the static window.
+\end{itemize}
+
+
+\subsubsection{seller\_portal/product\_new.c}
+Contains functions for CRUD of products and displaying them for the inventory screen.
+\begin{itemize}
+    \item \texttt{Product **load\_products2()}: Load products from csv.
+    \item \texttt{void write\_products(Product **)}: Write products to csv.
+    \item \texttt{int display\_products()}: Displays inventory screen and handles its input.
+\end{itemize}
+
+
+
+This module ensures that sellers have comprehensive control over their product inventory and insights into their business performance.
+
+\section{References}
+\begin{itemize}
+    \item NCURSES Docs: https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/
+    \item The C Programming Language by Dennis Ritchie \& Brian Kernighan
+    \item This Project is also hosted on GitHub: https://github.com/Karvy-Singh/SdfSuper
+\end{itemize}
+\end{document}
