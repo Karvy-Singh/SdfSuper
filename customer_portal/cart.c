@@ -33,6 +33,7 @@ void add_to_cart(Product *product) {
 
 void display_cart(WINDOW *win) {
     int y = 1;
+    float sum=0;
     wclear(win);
     box(win, 0, 0);
     mvwprintw(win, y++, 2, "My Cart:");
@@ -42,9 +43,12 @@ void display_cart(WINDOW *win) {
     } else {
         while (current != NULL) {
             mvwprintw(win, y++, 2, "%s - $%.2f", current->product->name, current->product->price);
+            sum+=current->product->price;
             current = current->next;
         }
     }
+    mvwprintw(win, y++, 2, "---------------------------------");
+    mvwprintw(win, y++, 2, "Total               $%.2f",sum);
     wrefresh(win);
 }
 
