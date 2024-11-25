@@ -21,7 +21,7 @@ int parse_line(char *line, char *fields[]) {
     return i;  
 }
 
-void parse_csv(const char *filename, char *user_input1, char *user_input2) {
+int parse_csv(const char *filename, char *user_input1, char *user_input2) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Unable to open file");
@@ -38,11 +38,12 @@ void parse_csv(const char *filename, char *user_input1, char *user_input2) {
         if (strcmp(user_input1, fields[0]) == 0){
             if (strcmp(user_input2, fields[1]) == 0){
                 if (*fields[2]=='S'){
+                    return 1;
                     run_tui();
                     break;
                 }
                 else{
-                    start_customer_portal();
+                    return 2;
                     break;
                 }
             }
@@ -50,6 +51,7 @@ void parse_csv(const char *filename, char *user_input1, char *user_input2) {
     }
 
     fclose(file);
+    return 0;
 }
 
 int main() {
@@ -63,12 +65,14 @@ int main() {
     curs_set(0);
     keypad(stdscr, TRUE);
     start_color();
-    init_pair(1, COLOR_BLACK, COLOR_BLACK);
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
     refreshCDKScreen(cdk_screen);
     button = newCDKButton(cdk_screen, CENTER, CENTER, "      LOGIN       ", NULL, TRUE, FALSE);
     setCDKButtonBackgroundAttrib(button, COLOR_PAIR(1) | A_BOLD);
     drawCDKButton(button, TRUE);
     activateCDKButton(button, NULL);
+    
+    int login = 0;
 
     if (button->exitType == vNORMAL) {
         destroyCDKButton(button);
@@ -83,13 +87,20 @@ int main() {
         entry2 = newCDKEntry(cdk_screen, CENTER, CENTER, NULL, "Enter Password: ", A_NORMAL, '_', vMIXED, 40, 0, 256, TRUE, FALSE);
         user_input2 = activateCDKEntry(entry2, NULL);
 
-        parse_csv("Users.csv",user_input1,user_input2);
 
+        login = parse_csv("Users.csv",user_input1,user_input2);
         destroyCDKEntry(entry1);
         destroyCDKEntry(entry2);
     }
     destroyCDKScreen(cdk_screen);
     endCDK();
+
+    if (login == 1){
+      run_tui();
+    }else if(login == 2){
+      start_customer_portal();   
+    }
+
     endwin();
 
     return 0;
